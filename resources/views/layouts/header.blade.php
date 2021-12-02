@@ -15,7 +15,7 @@
                             <span class="fas fa-search "></span>
                         </i>
                     </div>
-                    <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
+                    <input type="text" class="form-control bg-transparent border-0" placeholder="Buscar...">
                 </div>
             </form>
         </div>
@@ -27,15 +27,18 @@
                         <span class="availability-status online"></span>
                     </div>
                     <div class="nav-profile-text">
-                        <p class="mb-1 text-black">David Perez</p>
+                        <p class="mb-1 text-black">{{ auth()->user()->name }}</p>
                         {{--                            <i class="fas fa-angle-down"></i>--}}
                     </div>
                 </a>
                 <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
 
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
-                        <i class="fas fa-sign-out-alt mr-2 text-primary"></i>Signout </a>
+                    <a class="dropdown-item" href="#" onclick="$(this).find('form').submit()">
+                        <form action="{{ route('logout') }}" method="post">@csrf</form>
+                        <i class="fas fa-sign-out-alt mr-2 text-primary"></i>
+                        Salir
+                    </a>
                 </div>
             </li>
             <li class="nav-item d-none d-lg-block full-screen-link">

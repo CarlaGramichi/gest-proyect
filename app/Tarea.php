@@ -19,6 +19,7 @@ class Tarea extends Model
     {
         return $this->belongsTo(ProyectoTarea::class, 'id_tarea', 'id_tarea');
     }
+
     public function responsables()
     {
         return $this->hasMany(TareaResponsable::class, 'id_tarea', 'id_tarea');

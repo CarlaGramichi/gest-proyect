@@ -63,13 +63,13 @@ class EstadoSeeder extends Seeder
         $estado = new Estado();
         $estado->nombre_estado = 'En proceso';
         $estado->color = 'badge-warning';
-        $estado->tipo = 'Usuario';
+        $estado->tipo = 'Tareas';
         $estado->save();
 
         $estado = new Estado();
         $estado->nombre_estado = 'Finalizada';
         $estado->color = 'badge-success';
-        $estado->tipo = 'Usuario';
+        $estado->tipo = 'Tareas';
         $estado->save();
 
     }

@@ -33,10 +33,15 @@
                             @foreach($proyect->tareas as $tarea)
                                 @foreach($tareaInfo as $info)
                                     @if($info->id_estado == '8' && $tarea->id_tarea == $info->id_tarea)
-                                        <li>
+                                        <li class="mb-2">
                                             <a href="{{route('task.show', $tarea->id_tarea)}}" class="menu-title"
                                                style="color: #b66dff!important;">
                                                 {{$info->titulo}}
+
+                                            </a>
+                                            &emsp;
+                                            <a href="{{ url('/task/'.$info->id_tarea.'/edit/'.$proyect->id_proyecto) }}" class="btn btn-sm btn-info">
+                                                <i class="fa fa-edit"></i>
                                             </a>
                                         </li>
                                     @endif

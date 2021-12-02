@@ -14,18 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('dashboard.index');
+    });
+
+    Route::get('/home', function () {
+        return view('dashboard.index');
+    })->name('home');
+
+    Route::resource('proyect', 'ProyectoController');
+    Route::resource('responsable', 'ResponsableController');
+    Route::resource('task', 'TareaController');
+    Route::get('task/create/{proyect} ', 'TareaController@create')->name('task.proyect');
+    Route::get('task/{task}/edit/{proyect} ', 'TareaController@edit')->name('task.edit');
+
 });
-//Route::get('proyect/{proyect}/edit', 'Admin\DashboardController@edit');
-Route::resource('proyect', 'ProyectoController');
-Route::resource('responsable', 'ResponsableController');
-//Route::resource('login', 'LoginController');
-Route::resource('task', 'TareaController');
-Route::get('task/create/{proyect} ', 'TareaController@create')->name('task.proyect');
-Route::get('task/{task}/edit/{proyect} ', 'TareaController@edit')->name('task.edit');
+
 
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+

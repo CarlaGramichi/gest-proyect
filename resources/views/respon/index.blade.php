@@ -33,8 +33,8 @@
                                         <img src="{{asset('uploads/'.$responsable->image)}}" alt="image"/>
                                     </td>
                                     <td>
-                                        <a class="menu-title" href="../../index.html" style="color: #b66dff!important;">
-                                            {{$responsable->apellido}}, {{$responsable->nombre}}
+                                        <a class="menu-title" href="{{ url('/users/' . $responsable->id) }}" style="color: #b66dff!important;">
+                                            {{$responsable->name}}
                                         </a>
                                     </td>
 
@@ -45,7 +45,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('responsable.edit',$responsable->id_responsable)}}"
+                                        <a href="{{route('responsable.edit',$responsable->id)}}"
                                            class="btn btn-inverse-primary btn-icon" style="padding: 12px!important;">
                                             <span class="mdi mdi-border-color mb-5"></span>
                                         </a>

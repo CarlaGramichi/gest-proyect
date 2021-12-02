@@ -15,13 +15,16 @@ class CreateProyectosTable extends Migration
     {
         Schema::create('proyectos', function (Blueprint $table) {
             $table->id('id_proyecto');
-            $table->string('id_estado');
-            $table->string('id_responsable');
+            $table->unsignedBigInteger('id_estado');
+            $table->unsignedBigInteger('id_responsable');
             $table->string('nombre',120);
             $table->string('fecha_inicio',120)->nullable();
             $table->string('fecha_fin',120)->nullable();
-            $table->string('descripcion',250);
+            $table->text('descripcion',250);
             $table->timestamps();
+
+            $table->foreign('id_responsable')->references('id')->on('users');
+            $table->foreign('id_estado')->references('id_estado')->on('estados');
         });
     }
 

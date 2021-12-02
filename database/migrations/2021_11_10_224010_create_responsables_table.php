@@ -21,8 +21,10 @@ class CreateResponsablesTable extends Migration
             $table->string('contrasena',250);
             $table->string('fecha_inicio');
             $table->string('image', 120);
-            $table->string('id_estado');
+            $table->unsignedBigInteger('id_estado');
             $table->timestamps();
+
+            $table->foreign('id_estado')->references('id_estado')->on('estados');
         });
     }
 

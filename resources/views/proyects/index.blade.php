@@ -45,8 +45,15 @@
                                                style="padding: 12px!important;">
                                                 <span class="mdi mdi-border-color mb-5"></span>
                                             </a>
-                                            <a href="{{route('proyect.destroy',[$proyecto->id_proyecto ])}}"
-                                               class="btn btn-inverse-danger btn-icon" style="padding: 12px!important;">
+                                            <a href="#" class="btn btn-inverse-danger btn-icon"
+                                               style="padding: 12px!important;"
+                                               onclick="$(this).find('form').submit();">
+                                                <form action="{{ route('proyect.destroy',[$proyecto->id_proyecto ]) }}"
+                                                      method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="_method" value="delete"/>
+                                                </form>
+
                                                 <i class="mdi mdi-delete"></i>
                                             </a>
                                         </td>

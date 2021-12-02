@@ -26,8 +26,8 @@ class ProyectoRequest extends FormRequest
         return [
             'id_responsable'  => 'required',
             'nombre'  => 'required',
-            'fecha_inicio'  => 'required|date_format:d/m/Y',
-            'fecha_fin'  => 'required|date_format:d/m/Y',
+            'fecha_inicio'  => 'required',
+            'fecha_fin'  => 'required',
             'descripcion'  => 'required',
             'id_estado'  => 'required',
 

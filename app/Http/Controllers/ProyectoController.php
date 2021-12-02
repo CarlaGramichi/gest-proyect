@@ -36,8 +36,8 @@ class ProyectoController extends Controller
     public function create()
     {
         $estados = Estado::where('tipo','Proyecto')->get()->pluck('nombre_estado', 'id_estado');
-        $responsables = Responsable::all()->pluck('nombre', 'id_responsable');
-//        $categories = Category::all()->pluck('title', 'id');
+        $responsables = Responsable::all()->pluck('name', 'id');
+
         return view('proyects.create', compact('estados','responsables'));
 
     }
@@ -79,7 +79,7 @@ class ProyectoController extends Controller
     public function edit(Proyecto $proyect)
     {
         $estados = Estado::where('tipo','Proyecto')->get()->pluck('nombre_estado', 'id_estado');
-        $responsables = Responsable::all()->pluck('nombre', 'id_responsable');
+        $responsables = Responsable::all()->pluck('name', 'id');
 
         return view('proyects.edit',compact('proyect','estados','responsables'));
     }
@@ -106,8 +106,7 @@ class ProyectoController extends Controller
     public function destroy(Proyecto $proyect)
     {
         $proyect->update(['is_deleted' => '1']);
+
         return redirect()->route('proyect.index')->with('success', "Proyecto eliminado con éxito.");
-
-
     }
 }

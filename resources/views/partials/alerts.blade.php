@@ -2,18 +2,18 @@
 
     @if(count($errors))
 
-        <div class="alert alert-danger" role="alert">
-
-            <ul>
+            <ul class="list-unstyled">
                 @foreach($errors->all() as $error)
 
-                    <li>{{ $error }}</li>
+                    <li>
+                        <div class="alert alert-danger" role="alert">
+                            <b>{{ $error }}</b>
+                        </div>
+                    </li>
 
                 @endforeach
 
             </ul>
-
-        </div>
 
     @endif
 

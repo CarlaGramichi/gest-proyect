@@ -16,28 +16,19 @@
                         data-selected-text-format="count > 20"
                         data-live-search="true" data-live-search-placeholder="Buscar"
                         data-style="btn-primary" data-actions-box="true"
-                        id="responsable" name="responsable[]" value="">
-
+                        id="responsable" name="responsable[]" required>
 
                     @foreach($responsables as $responsable)
-                        @if(isset($task->responsables))
-                            @foreach ($task->responsables as $respon)
-                                <option
-                                    value="{{ $respon->id_responsable}}"
-                                    {{( $respon->id_responsable == $responsable->id_responsable) ? "selected":"" }}>
-                                    {{($responsable->nombre)}}
-                                </option>
-                            @endforeach
-                        @else
-                        <option value="{{$responsable->id_responsable}}">{{$responsable->nombre}}</option>
-                        @endif
+                        <option value="{{ $responsable->id }}" {{ isset($task) && $task->responsables->contains('id_responsable',$responsable->id) ? 'selected' : '' }}>
+                            {{ $responsable->name }}
+                        </option>
                     @endforeach
                 </select>
 
             </div>
             <div class="form-group">
                 {!! Form::label('descripcion', 'Descripción') !!}
-                {!! Form::textarea('descripcion',null, ['class' => 'form-control', 'placeholder'=>'Descripción']) !!}
+                {!! Form::textarea('descripcion',null, ['class' => 'form-control', 'placeholder'=>'Descripción', 'required']) !!}
 
             </div>
             <div class="form-group">

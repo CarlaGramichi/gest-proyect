@@ -16,8 +16,11 @@ class CreateProyectoTareasTable extends Migration
         Schema::create('proyecto_tareas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_proyecto');
-            $table->string('id_tarea');
+            $table->unsignedBigInteger('id_tarea');
             $table->timestamps();
+
+            $table->foreign('id_proyecto')->references('id_proyecto')->on('proyectos');
+            $table->foreign('id_tarea')->references('id_tarea')->on('tareas');
         });
     }
 
