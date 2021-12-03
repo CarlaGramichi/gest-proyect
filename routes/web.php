@@ -26,8 +26,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('proyect', 'ProyectoController');
     Route::resource('responsable', 'ResponsableController');
     Route::resource('task', 'TareaController');
-    Route::get('task/create/{proyect} ', 'TareaController@create')->name('task.proyect');
-    Route::get('task/{task}/edit/{proyect} ', 'TareaController@edit')->name('task.edit');
+    Route::get('task/create/{proyect}', 'TareaController@create')->name('task.proyect');
+    Route::get('task/{task}/edit/{proyect}', 'TareaController@edit')->name('task.edit');
+//    Route::get('task/{task}/destroy/{proyect}', 'TareaController@destroy')->name('task.destroy');
+    Route::get('myproyect', 'ProyectoController@myproyect')->name('proyect.myproyect');
 
 });
 

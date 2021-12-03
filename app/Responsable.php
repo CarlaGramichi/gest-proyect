@@ -14,4 +14,8 @@ class Responsable extends Model
         return $this->belongsTo(Estado::class,'id_estado','id_estado');
     }
 
+    public function rol(){
+        return $this->belongsTo(Rol::class,'id_rol','id_rol');
+    }
+
 }

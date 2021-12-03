@@ -13,7 +13,8 @@
                 {!! Form::label('email', 'Email') !!}
                 {!! Form::text('email', null, ['class' => 'form-control','placeholder'=>'Email', 'required']) !!}
             </div>
-            @if(!$responsable)
+
+            @if(!$responsable || $responsable == null )
                 <div class="form-group">
                     {!! Form::label('password', 'Contraseña') !!} <br>
                     {!! Form::password('password',['class' => 'form-control','required']) !!}
@@ -49,8 +50,13 @@
                 @endif
             </div>
             <div class="form-group">
+                {!! Form::label('id_rol', 'Rol') !!}
+                {!! Form::select('id_rol', $rol, null,['class' => 'form-control', 'placeholder' => 'Seleccione una opción']) !!}
+
+            </div>
+            <div class="form-group">
                 {!! Form::label('id_estado', 'Estado') !!}
-                {!! Form::select('id_estado', $estados, null,['class' => 'form-control']) !!}
+                {!! Form::select('id_estado', $estados, null,['class' => 'form-control', 'placeholder' => 'Seleccione una opción']) !!}
 
             </div>
             <a href="{{ route('responsable.index') }}" class="btn btn-gradient-danger">

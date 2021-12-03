@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsDeletedToTareas extends Migration
+class AddIsIdRolToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddIsDeletedToTareas extends Migration
      */
     public function up()
     {
-        Schema::table('tareas', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_rol');
         });
     }
 
@@ -25,7 +25,7 @@ class AddIsDeletedToTareas extends Migration
      */
     public function down()
     {
-        Schema::table('tareas', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRecursosTable extends Migration
+class AddIsDeletedToTareas extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateRecursosTable extends Migration
      */
     public function up()
     {
-        Schema::create('recursos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('tareas', function (Blueprint $table) {
+            $table->enum('is_deleted', [0, 1, 2, 3])->default('0');
         });
     }
 
@@ -26,6 +25,8 @@ class CreateRecursosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recursos');
+        Schema::table('tareas', function (Blueprint $table) {
+            //
+        });
     }
 }

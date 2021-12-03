@@ -26,7 +26,8 @@ class TareaController extends Controller
      */
     public function index()
     {
-        return view('task.index');
+        $tarea = Tarea::where('is_deleted', '0')->paginate();
+        return view('task.index',compact('tarea'));
     }
 
     /**
@@ -37,7 +38,7 @@ class TareaController extends Controller
     public function create(Proyecto $proyect)
     {
         $estados = Estado::where('tipo', 'Tareas')->get()->pluck('nombre_estado', 'id_estado');
-        $responsables = Responsable::all();
+        $responsables = Responsable::where('is_deleted', '0')->get();
         $proyect = $proyect->id_proyecto;
 
         return view('task.create', compact('estados', 'proyect', 'responsables'));
@@ -68,8 +69,9 @@ class TareaController extends Controller
                 'id_responsable' => $responsable,
             ]);
         }
+//        dd($request['id_proyecto']);
 
-        return redirect()->route('proyect.show', $proyectoTarea->id_proyecto)->with('success', "Tarea creada con éxito. Id de la operación
+        return redirect()->route('proyect.show', $request['id_proyecto'])->with('success', "Tarea creada con éxito. Id de la operación
  <strong>{$tarea->id_tarea}</strong>");
 
     }
@@ -104,7 +106,7 @@ class TareaController extends Controller
     {
 //        dd($task->responsables);
         $estados = Estado::where('tipo', 'Tareas')->get()->pluck('nombre_estado', 'id_estado');
-        $responsables = User::all();
+        $responsables = User::where('is_deleted', '0')->get();
         return view('task.edit', compact('estados', 'task', 'responsables', 'proyect'));
     }
 
@@ -131,7 +133,7 @@ class TareaController extends Controller
             ]);
         }
 
-        return redirect()->route('proyect.show', $request->id_proyecto)->with('success', "Tarea creada con éxito. Id de la operación
+        return redirect()->route('task.show', $task->id_tarea)->with('success', "Tarea creada con éxito. Id de la operación
  <strong>{$task->id_tarea}</strong>");
     }
 
@@ -139,10 +141,14 @@ class TareaController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Tarea $tarea
-     * @return Response
+     * @return RedirectResponse|Response
      */
-    public function destroy(Tarea $tarea)
+    public function destroy(Tarea $task)
     {
-        //
+        $idProyecto = ProyectoTarea::where('id_tarea','=', $task->id_tarea)->first();
+        $idProyecto = $idProyecto->id_proyecto;
+        $task->update(['is_deleted' => '1']);
+
+        return redirect()->route('proyect.show',[$idProyecto])->with('success', "Tarea eliminada con éxito.");
     }
 }

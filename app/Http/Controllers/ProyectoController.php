@@ -8,6 +8,7 @@ use App\Proyecto;
 use App\Responsable;
 use App\Tarea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Symfony\Component\Console\Input\Input;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,6 +25,7 @@ class ProyectoController extends Controller
     {
 
         $proyectos = Proyecto::where('is_deleted', '0')->paginate();
+//        dd($proyectos);
 
         return view('proyects.index',compact('proyectos'));
     }
@@ -36,7 +38,7 @@ class ProyectoController extends Controller
     public function create()
     {
         $estados = Estado::where('tipo','Proyecto')->get()->pluck('nombre_estado', 'id_estado');
-        $responsables = Responsable::all()->pluck('name', 'id');
+        $responsables = Responsable::where('is_deleted', '0')->get()->pluck('name', 'id');
 
         return view('proyects.create', compact('estados','responsables'));
 
@@ -65,7 +67,9 @@ class ProyectoController extends Controller
      */
     public function show(Proyecto $proyect)
     {
-        $tareaInfo = Tarea::all();
+        $tareaInfo = Tarea::join('tarea_responsables', 'tarea_responsables.id_tarea', '=', 'tareas.id_tarea')
+            ->where('is_deleted', '0')
+            ->get();
 
         return view('proyects.show',compact('proyect','tareaInfo'));
     }
@@ -79,7 +83,7 @@ class ProyectoController extends Controller
     public function edit(Proyecto $proyect)
     {
         $estados = Estado::where('tipo','Proyecto')->get()->pluck('nombre_estado', 'id_estado');
-        $responsables = Responsable::all()->pluck('name', 'id');
+        $responsables = Responsable::where('is_deleted', '0')->get()->pluck('name', 'id');
 
         return view('proyects.edit',compact('proyect','estados','responsables'));
     }
@@ -108,5 +112,19 @@ class ProyectoController extends Controller
         $proyect->update(['is_deleted' => '1']);
 
         return redirect()->route('proyect.index')->with('success', "Proyecto eliminado con éxito.");
+    }
+
+    public function myproyect()
+    {
+        $proyectos = Proyecto::join('proyecto_tareas', 'proyecto_tareas.id_proyecto','=','proyectos.id_proyecto')
+            ->join('tarea_responsables', 'tarea_responsables.id_tarea', 'proyecto_tareas.id_tarea')
+            ->join('tareas', 'tareas.id_tarea', 'proyecto_tareas.id_tarea')
+            ->select('*')
+            ->where('proyectos.is_deleted', '0','and')
+            ->where('tareas.is_deleted', '0','and')
+            ->where('tarea_responsables.id_responsable', '=', Auth::user()->id)->get();
+
+//       $id_proyecto =  $proyectos->id_proyecto;
+        return view('proyects.index',compact('proyectos'));
     }
 }

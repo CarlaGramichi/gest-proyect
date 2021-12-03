@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Estado;
 use App\ImageManipulator;
 use App\Responsable;
+use App\Rol;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -27,7 +28,9 @@ class ResponsableController extends Controller
      */
     public function index()
     {
-        $responsables = Responsable::where('id', '!=', Auth::user()->id)->get();
+        $responsables = Responsable::where('id', '!=', Auth::user()->id,'and')
+            ->where('is_deleted', '0')
+            ->get();
 
         return view('respon.index', compact('responsables'));
     }
@@ -40,8 +43,10 @@ class ResponsableController extends Controller
     public function create()
     {
         $estados = Estado::where('tipo', 'Usuario')->get()->pluck('nombre_estado', 'id_estado');
+        $rol = Rol::all()->pluck('tipo', 'id_rol');
+        $responsable = null;
 
-        return view('respon.create', compact('estados'));
+        return view('respon.create', compact('estados', 'responsable','rol'));
     }
 
     /**
@@ -92,8 +97,10 @@ class ResponsableController extends Controller
     public function edit(Responsable $responsable)
     {
         $estados = Estado::where('tipo', 'Usuario')->get()->pluck('nombre_estado', 'id_estado');
+        $rol = Rol::all()->pluck('tipo', 'id_rol');
 
-        return view('respon.edit', compact('responsable', 'estados'));
+
+        return view('respon.edit', compact('responsable', 'estados','rol'));
     }
 
     /**
@@ -117,17 +124,19 @@ class ResponsableController extends Controller
         }
         $responsable->update($request->except(['tmp_file', 'files']));
 
-        return redirect()->route('responsable.index')->with('success', "Proyecto actualizado con éxito. Id de la operación <strong>{$responsable->id_responsable}</strong>");
+        return redirect()->route('responsable.index')->with('success', "Usurio actualizado con éxito. Id de la operación <strong>{$responsable->id_responsable}</strong>");
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Responsable $responsable
-     * @return Response
+     * @return RedirectResponse|Response
      */
     public function destroy(Responsable $responsable)
     {
-        //
+        $responsable->update(['is_deleted' => '1']);
+
+        return redirect()->route('responsable.index')->with('success', "Usuario eliminado con éxito.");
     }
 }

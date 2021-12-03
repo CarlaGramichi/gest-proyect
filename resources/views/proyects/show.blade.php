@@ -37,12 +37,15 @@
                                             <a href="{{route('task.show', $tarea->id_tarea)}}" class="menu-title"
                                                style="color: #b66dff!important;">
                                                 {{$info->titulo}}
-
                                             </a>
-                                            &emsp;
-                                            <a href="{{ url('/task/'.$info->id_tarea.'/edit/'.$proyect->id_proyecto) }}" class="btn btn-sm btn-info">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
+{{--                                            {{dd(auth()->user()->id)}}--}}
+                                            @if($info->id_responsable == auth()->user()->id)
+                                                <i class="fas fa-heart menu-icon" style="color: #b66dff!important;"></i>
+                                                @endif
+                                                &emsp;
+                                                {{--                                            <a href="{{ url('/task/'.$info->id_tarea.'/edit/'.$proyect->id_proyecto) }}" class="btn btn-sm btn-info">--}}
+                                                {{--                                                <i class="fa fa-edit"></i>--}}
+                                                {{--                                            </a>--}}
                                         </li>
                                     @endif
                                 @endforeach
@@ -64,6 +67,9 @@
                                                style="color: #b66dff!important;">
                                                 {{$info->titulo}}
                                             </a>
+                                            @if($info->id_responsable == auth()->user()->id)
+                                                <i class="fas fa-heart menu-icon" style="color: #b66dff!important;"></i>
+                                            @endif
                                         </li>
                                     @endif
                                 @endforeach
@@ -85,6 +91,9 @@
                                                style="color: #b66dff!important;">
                                                 {{$info->titulo}}
                                             </a>
+                                            @if($info->id_responsable == auth()->user()->id)
+                                                <i class="fas fa-heart menu-icon" style="color: #b66dff!important;"></i>
+                                            @endif
                                         </li>
                                     @endif
                                 @endforeach

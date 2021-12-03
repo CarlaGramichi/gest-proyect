@@ -10,24 +10,42 @@
                 </span> {{$task->titulo}}
             </h3>
             <a href="{{route('task.edit', [$task->id_tarea, $proyectoId])}}" type="submit"
-               class="btn btn-gradient-primary mr-2">
-                <i class="mdi mdi-border-color"></i> Editar Tarea
+               class="btn btn-inverse-primary btn-icon " style="margin-left: 675px!important; padding: 12px!important;">
+                <i class="mdi mdi-border-color"></i>
             </a>
-        </div>
+            <a href="#" class="btn btn-inverse-danger btn-icon"
+               style=""
+               onclick="$(this).find('form').submit();">
+                <form
+                    action="{{ route('task.destroy',[$task->id_tarea]) }}"
+                    method="POST">
+                    @csrf
+                    <input type="hidden" name="_method" value="delete"/>
+{{--                    <input type="hidden" name="idproyecto" value="{{$proyectoId}}">--}}
+                </form>
 
+                <i class="mdi mdi-delete"></i>
+            </a>
+
+        </div>
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <div class="card-box task-detail">
                             <div class="media mt-0 m-b-30">
-                                <img class="d-flex mr-3 rounded-circle" alt="64x64"
-                                     src="{{asset('uploads/'.$responsableProyecto->image)}}"
-                                     style="width: 48px; height: 48px; object-fit: cover !important;">
+                                @if(isset($responsableProyecto->image))
+                                    <img class="d-flex mr-3 rounded-circle" alt="64x64"
+                                         src="{{asset('uploads/'.$responsableProyecto->image)}}"
+                                         style="width: 48px; height: 48px; object-fit: cover !important;">
+                                @endif
                                 <div class="media-body">
-                                    <h5 class="media-heading mb-0 mt-0">Responsable del Proyecto: {{$responsableProyecto->apellido}}, {{$responsableProyecto->nombre}}
+                                    <h5 class="media-heading mb-0 mt-0">Responsable del
+                                        Proyecto: {{$responsableProyecto->name}}
                                     </h5>
-                                    <label class="badge {{$task->estado->color}}">{{$task->estado->nombre_estado}}</label>
+                                    <label
+                                        class="badge {{$task->estado->color}}">{{$task->estado->nombre_estado}}
+                                    </label>
                                 </div>
 
                             </div>
@@ -47,9 +65,16 @@
                                 <h5 class="m-b-5">Asignados:</h5>
                                 <div>
                                     @foreach($responsableTarea as $responsable)
-                                    <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title='{{$responsable->nombre}}'><img class="rounded-circle thumb-sm" alt="64x64" style="object-fit: cover !important;"
-                                                     src="{{asset('uploads/'.$responsable->image)}}">
-                                    </a>
+                                        @if(isset($responsable->image))
+                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                               title='{{$responsable->name}}'><img class="rounded-circle thumb-sm" alt="64x64" style="object-fit: cover !important;" src="{{asset('uploads/'.$responsable->image)}}">
+                                            </a>
+                                        @else
+                                            <a href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                   title='{{$responsable->name}}'><img class="rounded-circle thumb-sm" alt="64x64" style="object-fit: cover !important;" src="{{asset('images/faces-clipart/pic-1.png')}}">
+                                            </a>
+
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -59,6 +84,8 @@
             </div>
 
         </div>
+
+
     </div>
 
 @endsection
